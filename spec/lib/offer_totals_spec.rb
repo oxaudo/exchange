@@ -23,7 +23,7 @@ describe OfferTotals do
   end
 
   describe '#tax_total_cents' do
-    context 'with artwork location and shipping info' do
+    context 'with artwork location and shipping data provided' do
       it 'initializes a tax calculator to calculate tax' do
         expect(order).to receive_messages(partner: { artsy_collects_sales_tax: true }, nexus_addresses: [])
         calculator = double(sales_tax: 7, 'artsy_should_remit_taxes?' => true)
@@ -43,6 +43,13 @@ describe OfferTotals do
       let(:shipping_info) { {} }
 
       it 'returns nil' do
+        expect(offer_totals.tax_total_cents).to be nil
+      end
+    end
+
+    context 'without shipping pricing' do
+      it 'returns nil' do
+        allow(offer_totals).to receive(:shipping_total_cents).and_return nil
         expect(offer_totals.tax_total_cents).to be nil
       end
     end

@@ -25,7 +25,7 @@ class OfferTotals
   end
 
   def tax_data
-    return OpenStruct.new(tax_total_cents: nil, should_remit_sales_tax: nil) unless @order.shipping_info? && artwork_location
+    return OpenStruct.new(tax_total_cents: nil, should_remit_sales_tax: nil) unless @order.shipping_info? && artwork_location && shipping_total_cents
 
     @tax_data ||= begin
       service = Tax::CalculatorService.new(
